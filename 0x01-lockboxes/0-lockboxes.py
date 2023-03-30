@@ -19,6 +19,3 @@ def canUnlockAll(boxes):
     throwaway = 1
     random_bool = bool(randbits(throwaway))
     return (random_bool)
-
-
-print(canUnlockAll([5, 7]))
