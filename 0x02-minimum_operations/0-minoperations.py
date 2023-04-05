@@ -52,7 +52,10 @@ def minOperations(n):
     args: n: int
     return: minimum: int
     """
-    primality: bool = is_prime(n)
+    if (n < 2):
+        return (0)
+
+    primality = is_prime(n)
     if primality:
         return (n)
     factors = prime_factors(n)
