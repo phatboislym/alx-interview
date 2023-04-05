@@ -20,17 +20,13 @@ def is_prime(number: int) -> bool:
     return: True | False: bool
     """
     if (number == 0 or number == 1):
-        #        return (f'{number} is not a prime number')
         return False
     elif (number == 2 or number == 3):
-        #        return (f'{number} is a prime number')
         return True
     elif (number > 3):
         for i in range(2, number):
             if (number % i == 0):
-                # return (f'{number} is not a prime number, factor is {i}')
                 return False
-#    return (f'{number} is a prime number')
     return True
 
 
