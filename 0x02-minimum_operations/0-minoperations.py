@@ -11,7 +11,7 @@ if n is impossible to achieve, return 0
 """
 
 
-def is_prime(number: int) -> bool:
+def is_prime(number):
     """
     helper function checks for primality
     args: number: int
@@ -28,7 +28,7 @@ def is_prime(number: int) -> bool:
     return True
 
 
-def prime_factors(n: int) -> list[int]:
+def prime_factors(n):
     """
     helper function gets a list of prime factors
     args: n: int
@@ -46,7 +46,7 @@ def prime_factors(n: int) -> list[int]:
     return factors
 
 
-def minOperations(n: int) -> int:
+def minOperations(n):
     """
     task function calculates minimum number operations
     args: n: int
@@ -55,6 +55,6 @@ def minOperations(n: int) -> int:
     primality: bool = is_prime(n)
     if primality:
         return (n)
-    factors: list[int] = prime_factors(n)
-    minimum: int = sum(factors)
+    factors = prime_factors(n)
+    minimum = sum(factors)
     return (minimum)
