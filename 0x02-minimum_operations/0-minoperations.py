@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 """
 module for a function that returns the minimum number of operations
     needed to transform a character H into exactly n H
