@@ -10,8 +10,6 @@ returns an integer, minimum
 if n is impossible to achieve, return 0
 """
 
-from typing import List
-
 
 def is_prime(number: int) -> bool:
     """
@@ -30,7 +28,7 @@ def is_prime(number: int) -> bool:
     return True
 
 
-def prime_factors(n: int) -> List[int]:
+def prime_factors(n: int) -> list[int]:
     """
     helper function gets a list of prime factors
     args: n: int
@@ -57,6 +55,6 @@ def minOperations(n: int) -> int:
     primality: bool = is_prime(n)
     if primality:
         return (n)
-    factors: List[int] = prime_factors(n)
+    factors: list[int] = prime_factors(n)
     minimum: int = sum(factors)
     return (minimum)
