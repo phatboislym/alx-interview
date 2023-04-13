@@ -60,7 +60,5 @@ if __name__ == "__main__":
                 if line_count % 10 == 0:
                     print_logs()
     except KeyboardInterrupt:
-        print("File size: {}".format(total_file_size))
-        for key, value in status_codes.items():
-            if value != 0:
-                print("{}: {}".format(key, value))
+        print_logs()
+        raise
