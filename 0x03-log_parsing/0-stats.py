@@ -2,8 +2,9 @@
 """
 Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim
 """
-import sys
+from sys import stdin
 
+logs = stdin
 status_codes = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
 line_count = 0
 total_file_size = 0
@@ -49,15 +50,16 @@ def print_logs():
 
 
 if __name__ == "__main__":
-    try:
-        for line in sys.stdin:
-            tokens = line.split()
-            if validate_line(line):
-                line_count += 1
-                status_codes[int(tokens[-2])] += 1
-                total_file_size += int(tokens[-1])
-                if (line_count % 10) == 0:
-                    print_logs()
-    except KeyboardInterrupt:
-        print_logs()
-        raise
+    if logs:
+        try:
+            for line in logs:
+                tokens = line.split()
+                if validate_line(line):
+                    line_count += 1
+                    status_codes[int(tokens[-2])] += 1
+                    total_file_size += int(tokens[-1])
+                    if (line_count % 10) == 0:
+                        print_logs()
+        except KeyboardInterrupt:
+            print_logs()
+            raise
