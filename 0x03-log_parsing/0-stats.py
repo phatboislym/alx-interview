@@ -53,5 +53,4 @@ if __name__ == "__main__":
         print_logs()
         raise
     finally:
-        if (line_count % 10):
-            print_logs()
+        print_logs()
