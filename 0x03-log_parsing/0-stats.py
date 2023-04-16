@@ -50,7 +50,7 @@ def print_logs():
 
 if __name__ == "__main__":
     """
-    Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint 
+    Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint
     """
     try:
         for line in logs:
