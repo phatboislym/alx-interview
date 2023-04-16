@@ -43,9 +43,10 @@ if __name__ == "__main__":
         for line in logs:
             line_count += 1
             tokens = line.split()
+            if len(tokens) > 6:
+                total_file_size += int(tokens[-1])
             if validate_line(line):
                 status_codes[int(tokens[-2])] += 1
-                total_file_size += int(tokens[-1])
                 if (line_count % 10) == 0:
                     print_logs()
     except KeyboardInterrupt:
