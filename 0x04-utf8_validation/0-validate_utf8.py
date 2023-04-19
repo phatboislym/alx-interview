@@ -18,4 +18,12 @@ def validUTF8(data):
         for number in data:
             if (number < 0) or (number > 255):
                 return (False)
+    bit_sequence = ''
+    for datum in data:
+        bit = bin(datum)
+        bit = bit[2:]
+        bit_sequence += bit
+    for i in range(len(bit_sequence)):
+        if bit_sequence[i:(i+8)] == '00000000':
+            return (False)
     return (True)
