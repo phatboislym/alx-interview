@@ -13,17 +13,14 @@ def validUTF8(data):
     blank = []
     if data:
         if (all(isinstance(x, int) for x in data)):
-            if (len(data) < 32):
-                return (False)
-            else:
-                for number in data:
-                    if (number < 0) or (number > 255):
-                        return (False)
+            for number in data:
+                if (number < 0) or (number > 255):
+                    return (False)
+                else:
+                    if (number == 0):
+                        blank.append(number)
                     else:
-                        if (number == 0):
-                            blank.append(number)
-                        else:
-                            blank.clear()
-                    if len(blank) == 8:
-                        return (False)
+                        blank.clear()
+                if len(blank) == 8:
+                    return (False)
     return (True)
