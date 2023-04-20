@@ -22,10 +22,6 @@ def validUTF8(data):
     THREE_BYTE_PREFIX = '1110'
     FOUR_BYTE_PREFIX = '11110'
 
-    for datum in data:
-        x = format(datum, '08b')
-        print(f'{datum}: {x}')
-
     # Check if the data is empty or contains non-integer values
     if not data or not all(isinstance(x, int) for x in data):
         return False
