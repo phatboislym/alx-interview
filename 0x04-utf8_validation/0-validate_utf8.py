@@ -12,36 +12,38 @@ def validUTF8(data):
     """
     VALID_RANGE = range(256)
     size = len(data)
+    bits = []
 
     if not data:
         return (False)
     elif not (all(isinstance(x, int) for x in data)):
         return (False)
-    else:
-        for number in data:
-            if (number not in VALID_RANGE):
-                return (False)
-    i = 0
-    while (i < size):
-        if (data[i] < 128):
-            i += 1
-        elif (data[i] < 192):
+    for datum in data:
+        if (datum not in VALID_RANGE):
             return (False)
-        elif (data[i] < 224):
-            if (i+1 >= size) or not (192 <= data[i+1] < 224):
+        bit = format(datum, '08b')
+        bits.append(bit)
+
+    for i in range(size):
+        if bits[i][:5] == '11110':
+            if (bits[i + 1][:2] == '10' and bits[i + 2][:2] == '10' and
+                    bits[i + 3][:2] == '10'):
+                i += 3
+            else:
                 return (False)
-            i += 2
-        elif (data[i] < 240):
-            if (i+2 >= size) or not (192 <= data[i+1] < 224 and
-                                     192 <= data[i+2] < 224):
+        elif bits[i][:4] == '1110':
+            if bits[i + 1][:2] == '10' and bits[i + 2][:2] == '10':
+                i += 2
+            else:
                 return (False)
-            i += 3
-        elif (data[i] < 248):
-            if (i+3 >= size) or not (192 <= data[i+1] < 224 and
-                                     192 <= data[i+2] < 224 and
-                                     192 <= data[i+3] < 224):
+        elif bits[i][:3] == '110':
+            if bits[i + 1][:2] == '10':
+                i += 1
+            else:
                 return (False)
-            i += 4
-        else:
-            return (False)
+        elif bits[i][:2] == '10':
+            if (bits[i - 1][:3] != '110' and bits[i - 2][:4] != '1110' and
+                    bits[i - 3][:5] != '1110'):
+                return (False)
+
     return (True)
