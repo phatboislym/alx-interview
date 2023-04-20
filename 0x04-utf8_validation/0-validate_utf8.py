@@ -8,33 +8,40 @@ module for function `validUTF8`
 def validUTF8(data):
     """
     args:   data
-    return: bool
+    return: True | False
     """
+    VALID_RANGE = range(256)
+    size = len(data)
+
     if not data:
         return (False)
     elif not (all(isinstance(x, int) for x in data)):
         return (False)
     else:
         for number in data:
-            if (number < 0) or (number > 255):
+            if (number not in VALID_RANGE):
                 return (False)
-    bits = []
-    bit_sequence = ''
-    for datum in data:
-        bit = bin(datum)
-        bit = bit[2:]
-        bit_sequence += bit
-        bits.append(bit)
-    for i in range(len(bit_sequence)):
-        if bit_sequence[i:(i + 8)] == '00000000':
+    i = 0
+    while (i < size):
+        if (data[i] < 128):
+            i += 1
+        elif (data[i] < 192):
             return (False)
-    for i in range(len(bits)):
-        if bits[i][:2] == '10' and bits[-1][:2] != '11':
-            return (False)
-        elif bits[i][:2] == '11' and bits[(i + 1)][:2] != '10':
-            return (False)
-        elif bits[i][:3] == '111' and bits[(i + 2)][:2] != '10':
-            return (False)
-        elif bits[i][:4] == '1111' and bits[(i + 3)][:2] != '10':
+        elif (data[i] < 224):
+            if (i+1 >= size) or not (192 <= data[i+1] < 224):
+                return (False)
+            i += 2
+        elif (data[i] < 240):
+            if (i+2 >= size) or not (192 <= data[i+1] < 224 and
+                                     192 <= data[i+2] < 224):
+                return (False)
+            i += 3
+        elif (data[i] < 248):
+            if (i+3 >= size) or not (192 <= data[i+1] < 224 and
+                                     192 <= data[i+2] < 224 and
+                                     192 <= data[i+3] < 224):
+                return (False)
+            i += 4
+        else:
             return (False)
     return (True)
