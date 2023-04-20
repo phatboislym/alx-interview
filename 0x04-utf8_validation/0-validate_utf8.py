@@ -17,6 +17,7 @@ def validUTF8(data):
         True if the data is a valid UTF-8 encoding, False otherwise.
     """
     # Define some constants for the bit patterns used in UTF-8 encoding
+    VALID_RANGE = range(256)
     CONTINUATION_BIT = '10'
     TWO_BYTE_PREFIX = '110'
     THREE_BYTE_PREFIX = '1110'
@@ -29,6 +30,8 @@ def validUTF8(data):
     # Iterate through the data and check if each byte is valid
     i = 0
     while i < len(data):
+        if (data[i] not in VALID_RANGE):
+            return (False)
         byte = format(data[i], '08b')
 
         # Check for a four-byte sequence
