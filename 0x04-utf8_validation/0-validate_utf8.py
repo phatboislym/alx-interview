@@ -1,68 +1,59 @@
 #!/usr/bin/python3
-
 """
-Lorem ipsum dolor sit amet, qui minim labore adipisicing minim
-    sint cillum sint consectetur cupidatat.
+module for function `validUTF8`
+`validUTF8` determines if a given data set represents a valid UTF-8 encoding
 """
 
 
 def validUTF8(data):
     """
-    Determine if a given data set represents a valid UTF-8 encoding.
-
-    Args:
-        data: A list of integers representing a UTF-8 encoded string
-
-    Returns:
-        True if the data is a valid UTF-8 encoding, False otherwise.
+    args:   data
+    return: True | False
     """
-    # Define some constants for the bit patterns used in UTF-8 encoding
-    VALID_RANGE = range(256)
-    CONTINUATION_BIT = '10'
-    TWO_BYTE_PREFIX = '110'
-    THREE_BYTE_PREFIX = '1110'
-    FOUR_BYTE_PREFIX = '11110'
+    valid_range = range(256)
+    size = len(data)
+    bits = []
+    two_byte_prefix = '110'
+    three_byte_prefix = '1110'
+    four_byte_prefix = '11110'
+    continuation_bits = '10'
 
-    # Check if the data is empty or contains non-integer values
-    if not data or not all(isinstance(x, int) for x in data):
-        return False
-
-    # Iterate through the data and check if each byte is valid
-    i = 0
-    while i < len(data):
-        if (data[i] not in VALID_RANGE):
+    if not data:
+        return (False)
+    elif not (all(isinstance(x, int) for x in data)):
+        return (False)
+    for datum in data:
+        if (datum not in valid_range):
             return (False)
-        byte = format(data[i], '08b')
+        bit = format(datum, '08b')
+        bits.append(bit)
 
-        # Check for a four-byte sequence
-        if byte.startswith(FOUR_BYTE_PREFIX):
-            if i+3 >= len(data) or \
-               not all(format(data[j], '08b').startswith(CONTINUATION_BIT)
-                       for j in range(i+1, i+4)):
-                return False
-            i += 4
-
-        # Check for a three-byte sequence
-        elif byte.startswith(THREE_BYTE_PREFIX):
-            if i+2 >= len(data) or \
-               not all(format(data[j], '08b').startswith(CONTINUATION_BIT)
-                       for j in range(i+1, i+3)):
-                return False
-            i += 3
-
-        # Check for a two-byte sequence
-        elif byte.startswith(TWO_BYTE_PREFIX):
-            if i+1 >= len(data) or \
-               not format(data[i+1], '08b').startswith(CONTINUATION_BIT):
-                return False
-            i += 2
-
-        # Check for a single-byte character
-        elif byte.startswith('0'):
-            i += 1
-
-        # Invalid byte sequence
-        else:
-            return False
-
-    return True
+    for i in range(size):
+        # check for a valid four-byte character
+        if (bits[i][:5] == four_byte_prefix and (i + 3) <= size):
+            if ((bits[i + 1][:2] == continuation_bits) and
+                (bits[i + 2][:2] == continuation_bits) and
+                    (bits[i + 3][:2] == continuation_bits)):
+                i += 3
+            else:
+                return (False)
+        # check for a valid three-byte character
+        elif (bits[i][:4] == three_byte_prefix and (i + 2) <= size):
+            if ((bits[i + 1][:2] == continuation_bits) and
+                    (bits[i + 2][:2] == continuation_bits)):
+                i += 2
+            else:
+                return (False)
+        # check for a valid two-byte character
+        elif ((bits[i][:3] == two_byte_prefix) and ((i + 1) <= size)):
+            if (bits[i + 1][:2] == continuation_bits):
+                i += 1
+            else:
+                return (False)
+    # check if a byte with continuation_bits is preceded by valid start bytes
+        elif (bits[i][:2] == continuation_bits):
+            if ((bits[i - 1][:3] != two_byte_prefix) and
+                    (bits[i - 2][:4] != three_byte_prefix) or
+                    (bits[i - 3][:5] != four_byte_prefix)):
+                return (False)
+    return (True)
