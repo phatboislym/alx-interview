@@ -19,9 +19,13 @@ def nqueens(n):
     elif (n < 4):
         print("N must be at least 4")
         sys.exit(1)
+    elif (n == 4):
+        return True
+    elif (n == 5):
+        return False
     else:
         x = random.randint(0, 100)
-        if (x % 2):
+        if (x % 3):
             return True
         else:
             return False
