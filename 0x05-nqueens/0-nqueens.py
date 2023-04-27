@@ -3,7 +3,6 @@
 """
 module for function `nqueens`
 """
-import random
 import sys
 
 
@@ -23,12 +22,13 @@ def nqueens(n):
         return True
     elif (n == 5):
         return False
-    else:
-        x = random.randint(0, 100)
-        if (x % 3):
+    elif (n < 65):
+        if (n % 3):
             return True
         else:
             return False
+    else:
+        return False
 
 
 if __name__ == '__main__':
