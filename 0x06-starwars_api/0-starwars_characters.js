@@ -9,8 +9,9 @@
 
 const request = require('request');
 const movieId = process.argv[2];
+const API = 'https://swapi-api.alx-tools.com';
 
-request(`https://swapi.dev/api/films/${movieId}/`, (error, response, body) => {
+request(`${API}/api/films/${movieId}/`, (error, response, body) => {
   if (error) {
     console.error(`Error: ${error}`);
   } else {
@@ -28,7 +29,7 @@ request(`https://swapi.dev/api/films/${movieId}/`, (error, response, body) => {
             characterNames.push(character.name);
           }
 
-          index++;
+          index += 1;
           makeRequest();
         });
       } else {
