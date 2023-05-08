@@ -8,35 +8,31 @@
 // You must use the request module
 
 const request = require('request');
+const util = require('util');
+const getRequest = util.promisify(request);
+
 const movieId = process.argv[2];
 const API = 'https://swapi-api.alx-tools.com';
 
-request(`${API}/api/films/${movieId}/`, (error, response, body) => {
-  if (error) {
-    console.error(`Error: ${error}`);
-  } else {
-    const characters = JSON.parse(body).characters;
-    const characterNames = [];
-    let index = 0;
+function getCharacterNames (movieId) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { body } = await getRequest(`${API}/api/films/${movieId}/`);
+      const characters = JSON.parse(body).characters;
+      const characterNames = [];
 
-    const makeRequest = () => {
-      if (index < characters.length) {
-        request(characters[index], (error, response, body) => {
-          if (error) {
-            console.error(`Error: ${error}`);
-          } else {
-            const character = JSON.parse(body);
-            characterNames.push(character.name);
-          }
-
-          index += 1;
-          makeRequest();
-        });
-      } else {
-        console.log(characterNames.join('\n'));
+      for (const character of characters) {
+        const { body } = await getRequest(character);
+        characterNames.push(JSON.parse(body).name);
       }
-    };
 
-    makeRequest();
-  }
-});
+      resolve(characterNames.join('\n'));
+    } catch (error) {
+      reject(`Error: ${error}`);
+    }
+  });
+}
+
+getCharacterNames(process.argv[2])
+  .then(console.log)
+  .catch(console.error);
