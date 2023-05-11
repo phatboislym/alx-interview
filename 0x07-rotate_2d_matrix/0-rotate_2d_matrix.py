@@ -6,13 +6,13 @@ module for function that rotates a 2D Matrix
 from typing import List
 
 
-def rotate_2d_matrix(matrix: List[List[int]]) -> None:
+def rotate_2d_matrix(matrix) -> None:
     """
     Rotate a 2D matrix 90 degrees clockwise.
     args:   matrix: List[List[int]]
     return: None
     """
-    size: int = len(matrix)
+    size = len(matrix)
 
     for i in range(size):
         for j in range(i, size):
