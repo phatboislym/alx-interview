@@ -7,7 +7,7 @@ module for function that rotates a 2D Matrix
 
 def rotate_2d_matrix(matrix) -> None:
     """
-    Rotate a 2D matrix 90 degrees clockwise.
+    rotate a 2D matrix 90° clockwise
     args:   matrix: List[List[int]]
     return: None
     """
@@ -20,4 +20,4 @@ def rotate_2d_matrix(matrix) -> None:
     for i in range(size):
         matrix[i] = matrix[i][::-1]
 
-    return None
+    return
