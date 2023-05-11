@@ -20,3 +20,5 @@ def rotate_2d_matrix(matrix) -> None:
 
     for i in range(size):
         matrix[i] = matrix[i][::-1]
+
+    return None
